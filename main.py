@@ -1,5 +1,5 @@
 from runner import *
-import sys, curses, time, copy
+import sys, curses, time, copy, json
 
 
 def print_state(stdscr, p, g, runners, GOAL, steps, best):
@@ -62,20 +62,21 @@ def run_pool(p, g, runners, best, stdscr):
         steps += 1
         print_state(stdscr, p, g, runners, GOAL, steps, best)
         if arrived >= 1 + WIN_CONDITION or steps > 2 * best/0.0334:
-            winner = sorted([r for r in runners], key= lambda x: x.distance, reverse=True)[WIN_CONDITION]
+            winner = sorted([r for r in runners if r.blowup == 0], key= lambda x: x.distance, reverse=True)[WIN_CONDITION]
             print winner.time
             if winner.time < best:
-            	#with open("champion.drag", "w") as f:
-            	#	f.write() 
-            	best = winner.time
+                with open("champion.drag", "w") as f:
+                    #dic = { key: winner.brain.__dict__[key] for key in ["coefficients", "intercepts", "structure"] }
+                    json.dump(winner.log, f) 
+                best = winner.time
             break
 
     return winner, best
 
-N = 50
+N = 20
 GOAL = 97 * 256
 TIME_OUT = 20/0.0334
-GENERATIONS = 20
+GENERATIONS = 4
 WIN_CONDITION = 0
 MUTATION_RATE = 0.5
 if __name__ == '__main__':

@@ -10,6 +10,8 @@ class Runner(object):
         self.id = str(self.pool)
         
         
+        self.log = {"gas" : [], "shift" : [], "tach" : []}
+
         self.distance = 0
         self.speed = 0
         self.gear = 0
@@ -26,34 +28,40 @@ class Runner(object):
         self.time = 0
         self.blowup = 0
         self.brain = brain.Brain(structure)
+        self.log["gas"].append(self.gas)
+        self.log["shift"].append(self.shift)
+        self.log["tach"].append(self.tach)
 
     def update(self, inputs):
-    	if self.blowup == 0:
-	        results = self.brain.propagate(inputs, 0)
-	        #print results
-	        self.gear = self.update_gear()
-	        #print "gear is {}".format(self.gear)
-	        self.gas = int(results[0] > 0.5)
+        if self.blowup == 0:
+            results = self.brain.propagate(inputs, 0)
+            #print results
+            self.gear = self.update_gear()
+            #print "gear is {}".format(self.gear)
+            self.gas = int(results[0] > 0.5)
 
-	        self.distance = self.update_distance()
+            self.distance = self.update_distance()
 
-	        self.frame = self.update_frame()
-	        self.advance = self.update_advance()
-	        self.tach = self.update_tach()
-	        self.limit = self.update_limit()
-	        self.posttach = self.update_posttach()
-	        
-	        self.speed = self.update_speed()
-	        self.shift = int(results[1] > 0.5)
-	        self.time += 0.0334
+            self.frame = self.update_frame()
+            self.advance = self.update_advance()
+            self.tach = self.update_tach()
+            self.limit = self.update_limit()
+            self.posttach = self.update_posttach()
+            
+            self.speed = self.update_speed()
+            self.shift = int(results[1] > 0.5)
+            self.time += 0.0334
+            self.log["gas"].append(self.gas)
+            self.log["shift"].append(self.shift)
+            self.log["tach"].append(self.tach)
 
-	        if self.tach >= 32:
-	        	self.blowup = 1
-        
-        
-        
-        
-        self.posttach = self.update_posttach()
+            if self.tach >= 32:
+                self.blowup = 1
+            
+            
+            
+            
+            self.posttach = self.update_posttach()
 
     def get_initial_limit(self):
         return self.update_limit()
@@ -125,7 +133,7 @@ class Runner(object):
             return 0
 
     def print_state(self):
-    	#print "{}: {} d = {}; s = {}; g = {}".format(self.id[-5:], self.frame, self.distance, self.speed, self.gear)
-    	#raw_input()
+    #print "{}: {} d = {}; s = {}; g = {}".format(self.id[-5:], self.frame, self.distance, self.speed, self.gear)
+    #raw_input()
         return "{:1s}: {:4.2f} d={:3d}; s={:2d}; g={:1d} gas={:1d} sh={:1d}".format("B" * self.blowup, round(self.time,2), int(self.distance/256), self.speed,
-        															self.gear, self.gas, self.shift)
+        self.gear, self.gas, self.shift)
