@@ -135,5 +135,5 @@ class Runner(object):
     def print_state(self):
     #print "{}: {} d = {}; s = {}; g = {}".format(self.id[-5:], self.frame, self.distance, self.speed, self.gear)
     #raw_input()
-        return "{:1s}: {:4.2f} d={:3d}; s={:2d}; g={:1d} gas={:1d} sh={:1d}".format("B" * self.blowup, round(self.time,2), int(self.distance/256), self.speed,
+        return "{:1s}: {:5.2f} d={:3d}; s={:3d}; g={:1d} gas={:1d} sh={:1d}".format("B" * self.blowup, round(self.time,2), int(self.distance/256), self.speed,
         self.gear, self.gas, self.shift)

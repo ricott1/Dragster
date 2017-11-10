@@ -12,15 +12,12 @@ def main():
     stdscr = curses.initscr()
     curses.noecho()
     curses.cbreak()
-    
-    
-    structure = [4, 10, 2]
+    structure = STRUCTURE
     winners = []
     
     best = 999
     try:
         for g in xrange(GENERATIONS):
-            #GOAL += 1
             start_tach, frame_count = 21, 0
             pool = [[Runner(j, p, g, structure, start_tach, frame_count) for j in xrange(N)] for p in xrange(N)]
             if winners:
@@ -42,7 +39,7 @@ def evolve_runners(pool, g, winners):
         for i, r in enumerate(runners):
             runners[i].brain = copy.deepcopy(winners[i].brain)
             runners[i].id += winners[i].id
-            runners[i].brain.mutate(MUTATION_RATE * p / g / N)
+            runners[i].brain.mutate(MUTATION_RATE * p / N / g**1/2)
 
 def run_pool(p, g, runners, best, stdscr):
     arrived = 0
@@ -62,22 +59,21 @@ def run_pool(p, g, runners, best, stdscr):
         steps += 1
         print_state(stdscr, p, g, runners, GOAL, steps, best)
         if arrived >= 1 + WIN_CONDITION or steps > 2 * best/0.0334:
-            winner = sorted([r for r in runners if r.blowup == 0], key= lambda x: x.distance, reverse=True)[WIN_CONDITION]
+            winner = sorted([r for r in runners if r.blowup == 0], key= lambda x: x.distance, reverse=True)[0]
             print winner.time
             if winner.time < best:
                 with open("champion.drag", "w") as f:
-                    #dic = { key: winner.brain.__dict__[key] for key in ["coefficients", "intercepts", "structure"] }
                     json.dump(winner.log, f) 
                 best = winner.time
             break
 
     return winner, best
 
-N = 20
+N = 50
 GOAL = 97 * 256
 TIME_OUT = 20/0.0334
-GENERATIONS = 4
-WIN_CONDITION = 0
-MUTATION_RATE = 0.5
+GENERATIONS = 30
+MUTATION_RATE = 0.415
+STRUCTURE = [4, 6, 6, 2]
 if __name__ == '__main__':
     main()
