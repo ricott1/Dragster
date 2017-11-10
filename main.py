@@ -58,7 +58,7 @@ def run_pool(p, g, runners, best, stdscr):
             #time.sleep(0.15)    
         steps += 1
         print_state(stdscr, p, g, runners, GOAL, steps, best)
-        if arrived >= 1 + WIN_CONDITION or steps > 2 * best/0.0334:
+        if arrived >= 1 or steps > 2 * best/0.0334:
             winner = sorted([r for r in runners if r.blowup == 0], key= lambda x: x.distance, reverse=True)[0]
             print winner.time
             if winner.time < best:
