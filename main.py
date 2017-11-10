@@ -69,11 +69,11 @@ def run_pool(p, g, runners, best, stdscr):
 
     return winner, best
 
-N = 50
+N = 60
 GOAL = 97 * 256
 TIME_OUT = 20/0.0334
-GENERATIONS = 30
-MUTATION_RATE = 0.415
+GENERATIONS = 50
+MUTATION_RATE = 0.515
 STRUCTURE = [4, 6, 6, 2]
 if __name__ == '__main__':
     main()
