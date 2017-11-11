@@ -69,7 +69,7 @@ def run_pool(p, g, runners, best, stdscr):
 
     return winner, best
 
-N = 40
+N = 20
 GOAL = 97 * 256
 TIME_OUT = 20/0.0334
 GENERATIONS = 50
