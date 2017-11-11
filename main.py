@@ -74,6 +74,6 @@ GOAL = 97 * 256
 TIME_OUT = 20/0.0334
 GENERATIONS = 50
 MUTATION_RATE = 0.515
-STRUCTURE = [4, 6, 6, 2]
+STRUCTURE = [4, 6, 2]
 if __name__ == '__main__':
     main()

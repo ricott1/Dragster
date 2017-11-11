@@ -7,7 +7,7 @@ class Brain(object):
     self.structure = structure
     self.coefficients = initialize_coeffs(structure, 0, 1)
     self.intercepts = initialize_intercepts(structure, 0, 1)
-    self.f = relu
+    self.f = tanh
 
   def propagate(self, inputs, layer):
     M = transpose(self.coefficients[layer])

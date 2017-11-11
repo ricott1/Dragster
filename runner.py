@@ -128,7 +128,7 @@ class Runner(object):
                 elif self.speed == self.limit:
                     return self.speed
                 else:
-                    return self.speed - 1
+                    return max(0, self.speed - 1)
         else:
             return 0
 
